@@ -16,7 +16,7 @@ angles.
 
 Check out this repository:
 ```
-$ git clone https://github.com/wgm2111/wgm-mie-scattering
+$ git clone https://github.com/teimy/wgm-mie-scattering
 ```
 
 Change to the repository directory and build FORTRAN source code
