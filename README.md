@@ -1,11 +1,10 @@
 
 # Summary of wgm-mie-scattering
 This Python package is allows you to compute the scattering properties
-of airborne spherical particles.  This is useful for remote sensing of
-clouds (and aerosols) in the atmosphere.  Mie calculations are in FORTRAN
-codes written by Michael Mishchenko.  This package allows you to run
-Michael's calculations from Python.  I have also provided some documentation
-and argument checking for these routines.
+of airborne spherical particles. This is useful for remote sensing of
+clouds (and aerosols) in the atmosphere. Mie calculations are in FORTRAN
+codes written by Michael Mishchenko. This package allows you to run 
+Michael's calculations from Python. Will Martin (from original repo) have also provided some documentation and argument checking for these routines.
 
 The output is given as an array of generalized spherical function
 coefficients (scaled by the extinction), but the output arrays have a method
@@ -15,8 +14,6 @@ angles.
 
 ## Quick try out
 
-(optional) Install the "Anaconda python distribution" by continuum analytics.
-
 Check out this repository:
 ```
 $ git clone https://github.com/wgm2111/wgm-mie-scattering
@@ -24,27 +21,12 @@ $ git clone https://github.com/wgm2111/wgm-mie-scattering
 
 Change to the repository directory and build FORTRAN source code
 ```
-$ python setup.py distribute
+$ python setup.py install
 ```
-
-Run the example ipython notebook
-```
-$ ipython notebook 
-```
-
-
-## Install to import from any directory 
-
-For a system wide install use:
-```
-  $ python setup.py install
-```
-
+This, however, doesn't yield system-wide intall. In order to use library, you have to copy the `spher.cpython-*your_python_version*-x86_64-linux-gnu.so` to your work directory. It is located in `build/lib.linux-x86_64-cpython-310/mie_scattering/lib/` directory.
 
 ## Requirements
-Python with numpy, scipy, f2py, and some other common packages.  The
-Anaconda python distribution is good, and will have all the necessary 
-third party packages. 
+Python with numpy, scipy, f2py, and some other common packages.
 
 ## References
 Fortran source code thanks to Michael Mishchenko: 
