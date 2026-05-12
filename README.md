@@ -4,29 +4,28 @@ This Python package is allows you to compute the scattering properties
 of airborne spherical particles. This is useful for remote sensing of
 clouds (and aerosols) in the atmosphere. Mie calculations are in FORTRAN
 codes written by Michael Mishchenko. This package allows you to run 
-Michael's calculations from Python. Will Martin (from original repo) have also provided some documentation and argument checking for these routines.
+Michael's calculations from Python. Original repo and wrapping done by Will Martin.
 
 The output is given as an array of generalized spherical function
 coefficients (scaled by the extinction), but the output arrays have a method
 called `angle_eval` which returns the scattering matrix at specified
 angles. 
 
+## Requirements
+Python with `numpy`, `scipy`, `f2py` (i.e. `anaconda` package);`gfortran` is also required.
 
-## Quick try out
+## System-wide install
 
 Check out this repository:
 ```
-$ git clone https://github.com/teimy/wgm-mie-scattering
+git clone https://github.com/teimy/wgm-mie-scattering
 ```
 
 Change to the repository directory and build FORTRAN source code
 ```
-$ python setup.py install
+cd wgm-mie-scattering
+python setup.py install
 ```
-This, however, doesn't yield system-wide intall. In order to use library, you have to copy the `spher.cpython-*your_python_version*-x86_64-linux-gnu.so` to your work directory. It is located in `build/lib.linux-x86_64-cpython-310/mie_scattering/lib/` directory.
-
-## Requirements
-Python with numpy, scipy, f2py, and some other common packages.
 
 ## References
 Fortran source code thanks to Michael Mishchenko: 
