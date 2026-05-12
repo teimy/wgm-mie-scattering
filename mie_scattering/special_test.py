@@ -17,7 +17,7 @@ import numpy.testing as npt
 
 # my imports 
 
-from special import wignerd, gensph
+from .special import wignerd, gensph
 
 # Global variables
 # ================================================================================

@@ -21,20 +21,23 @@ The SingleScatteringArray object subclasses numpy.ndarray.
 {default_kwds}
   
 """
-
 # standard python imports
 from __future__ import print_function
 from copy import copy
 # from my_tools.parallel import parmap
 
 # third party imports 
-import scipy as sp
+import numpy as sp
 from scipy import sparse
 import scipy.linalg as la
 
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
+
+
 # my imports 
-from lib import spher
-from single_scattering_array import ss_array, SingleScatteringArray
+from .lib import spher
+from .single_scattering_array import ss_array, SingleScatteringArray
 
 # Global variables
 # ==============================================================================
@@ -64,7 +67,7 @@ def _add_default_kwds_doc(fun):
     Append documentation giving the default list of kwd values for spher.
     """
     newdoc = "\nThe default values for sphere are as follows"
-    for key, val in default_kwds.iteritems():
+    for key, val in default_kwds.items():
         newdoc += "{0} = {1}\n".format(key, val) 
     fun.__doc__ += newdoc
     return fun

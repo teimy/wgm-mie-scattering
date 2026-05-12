@@ -17,7 +17,7 @@ from scipy.optimize import brentq
 import tables 
 
 # my imports 
-import spher_interface as sph
+from . import spher_interface as sph
 
 # Global variables
 # ================================================================================

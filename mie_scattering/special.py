@@ -38,7 +38,7 @@ from __future__ import print_function
 import scipy as sp
 
 # my imports 
-from lib import wig
+from .lib import wig
 
 # Global variables
 # =============================================================================

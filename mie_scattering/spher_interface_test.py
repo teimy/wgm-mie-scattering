@@ -22,7 +22,7 @@ import scipy as sp
 import numpy.testing as nptest
 
 # my imports 
-import spher_interface as sph
+import .spher_interface as sph
 mono, mono_dense_array, lognorm = (sph.mono, 
                                    sph.mono_dense_array,
                                    sph.lognorm)

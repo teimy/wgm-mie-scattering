@@ -57,10 +57,10 @@ import copy
 from copy import deepcopy
 
 # scipy/numpy imports
-from scipy import linspace, array, ones, zeros, eye, arange, dot, sqrt, log
+from numpy import linspace, array, ones, zeros, eye, arange, dot, sqrt, log
 import scipy as sp
 from scipy.interpolate import splrep, splev, splint
-from scipy.integrate import quad, romberg
+from scipy.integrate import quad
 import scipy.sparse as sparse
 from numpy import ndarray, unique
 import numpy.testing as ntest
@@ -120,7 +120,7 @@ class ModeBasis(list):
     # Wipe the database clean if the module is older than the db files
     try:
         module_mtime = os.path.getmtime(path)
-        db_files = [f for f in os.listdir('.') if (fname_root in f)]
+        db_files = [f for f in os.listdir('.') if (".size_parameter" in f)]
         if len(db_files) > 0:
             database_ctime = max(
                 *[os.path.getctime(f) for f in db_files])

@@ -42,9 +42,10 @@ from copy import copy
 # third party imports 
 import scipy as sp
 import scipy.linalg as la
+import numpy as np
 
 # my imports 
-from special import gensph, atensor 
+from .special import gensph, atensor 
 
 
 
@@ -58,7 +59,7 @@ GSFMAX = 20000
 
 
 
-class SingleScatteringArray(sp.ndarray):
+class SingleScatteringArray(np.ndarray):
     """
     A numpy.ndarray subclass for storing single scattering.  For storing the 
     generalized spherical function coefficients used to compute block diagonal
@@ -102,7 +103,7 @@ class SingleScatteringArray(sp.ndarray):
         """
         # chech that gsf_csr is dense and the correct shape
         cls.__intest(gsf_data)
-        out = sp.asarray(gsf_data).view(type=cls)
+        out = np.asarray(gsf_data).view(type=cls)
         return out
     def __array_finalize__(self, obj):
         " finalize array "
@@ -131,10 +132,10 @@ class SingleScatteringArray(sp.ndarray):
         a = self
         almax, blmax = a.lmax(), b.lmax()
         if almax>=blmax:
-            sp.ndarray.__iadd__(a[:,:blmax,...], b)
+            np.ndarray.__iadd__(a[:,:blmax,...], b)
             return a
         elif almax<blmax:
-            sp.ndarray.__iadd__(b[:,:almax,...], a)
+            np.ndarray.__iadd__(b[:,:almax,...], a)
             return b
        
     # ----
@@ -154,8 +155,8 @@ class SingleScatteringArray(sp.ndarray):
 
     def gsf(self, lmax=None):
         " Return a gsf array (6,lmax) "
-        out = (self.view(type=sp.ndarray).copy()[:,:lmax]
-               if lmax else self.view(type=sp.ndarray).copy())
+        out = (self.view(type=np.ndarray).copy()[:,:lmax]
+               if lmax else self.view(type=np.ndarray).copy())
         out[5,0] = 0.0
         return out
 
@@ -185,7 +186,7 @@ class SingleScatteringArray(sp.ndarray):
         # calculate the cosines of the angles
         # --------------------------------------
         # print(sp)
-        cosines = sp.cos(angles)
+        cosines = np.cos(angles)
 
         # evaluate the generalized spherical functions using  
         # -----------------------------------------------------
@@ -201,15 +202,15 @@ class SingleScatteringArray(sp.ndarray):
         out_shape = (6, angles.size) + sh[2:]
 
         # initialize the output.  This forces the correct shape =)
-        out = sp.zeros(out_shape)
-        out[0] = sp.dot(gsf[0].T, p00.T).T
-        out[1] = sp.dot((gsf[1]+gsf[2]).T, p22.T).T
-        out[2] = sp.dot((gsf[1]-gsf[2]).T, p2m2.T).T
+        out = np.zeros(out_shape)
+        out[0] = np.dot(gsf[0].T, p00.T).T
+        out[1] = np.dot((gsf[1]+gsf[2]).T, p22.T).T
+        out[2] = np.dot((gsf[1]-gsf[2]).T, p2m2.T).T
         out[1] = .5 * (out[1]+out[2])
         out[2] = out[1] - out[2]
-        out[3] = sp.dot(gsf[3].T, p00.T).T
-        out[4] = sp.dot(gsf[4].T, p20.T).T
-        out[5] = sp.dot(gsf[5].T, p20.T).T
+        out[3] = np.dot(gsf[3].T, p00.T).T
+        out[4] = np.dot(gsf[4].T, p20.T).T
+        out[5] = np.dot(gsf[5].T, p20.T).T
         return out
 
     
@@ -248,7 +249,7 @@ class SingleScatteringArray(sp.ndarray):
         
         # Scattering matrix 
         aten = self.atensor(theta)
-        P = sp.tensordot(aten, self, axes=[(-2, -1), (0, 1)])
+        P = np.tensordot(aten, self, axes=[(-2, -1), (0, 1)])
         return P
 
 
@@ -268,7 +269,7 @@ class SingleScatteringArray(sp.ndarray):
 
         # calculate the cosines of the angles
         # --------------------------------------
-        cosines = sp.cos(angles)
+        cosines = np.cos(angles)
 
         # evaluate the generalized spherical functions using  
         # -----------------------------------------------------
@@ -280,23 +281,23 @@ class SingleScatteringArray(sp.ndarray):
         # compute the scattering matrix values at each angle
         # -----------------------------------------------------    
         sh= gsf.shape
-        I = sp.arange(len(sh))
+        I = np.arange(len(sh))
         I[1], I[-1] = I[-1], I[1]
         gsf = gsf.transpose(I)
 
-        f1 = sp.inner(p00, gsf[0,...]).squeeze()
+        f1 = np.inner(p00, gsf[0,...]).squeeze()
 
-        f2 = sp.inner(p22, gsf[1,...]+gsf[2,...]).squeeze()
-        f3 = sp.inner(p2m2, gsf[1,...]-gsf[2,...]).squeeze()
+        f2 = np.inner(p22, gsf[1,...]+gsf[2,...]).squeeze()
+        f3 = np.inner(p2m2, gsf[1,...]-gsf[2,...]).squeeze()
         f2[...] = .5 * (f2 + f3)
         f3[...] = f2 - f3
-        f4 = sp.inner(p00, gsf[3,...]).squeeze()
-        f5 = sp.inner(p20, gsf[4,...]).squeeze()
-        f6 = sp.inner(p20, gsf[5,...]).squeeze()
+        f4 = np.inner(p00, gsf[3,...]).squeeze()
+        f5 = np.inner(p20, gsf[4,...]).squeeze()
+        f6 = np.inner(p20, gsf[5,...]).squeeze()
 
         # return the scattering tensor 
         # ------------------------------------------
-        return sarray(sp.array([f1, f2, f3, f4, f5, f6]))
+        return sarray(np.array([f1, f2, f3, f4, f5, f6]))
 
     def scatmats(self, angles):
         """
@@ -307,7 +308,7 @@ class SingleScatteringArray(sp.ndarray):
         st = self.scattering_tensor(angles)
         # populate a (4,4,...) array with the returned values
         out_shape = (4,4)+st.shape[1:]
-        out = sp.zeros(out_shape)
+        out = np.zeros(out_shape)
         out[0,0,...] = st[0]
         out[1,1,...] = st[1]
         out[2,2,...] = st[2]
@@ -324,9 +325,9 @@ class SingleScatteringArray(sp.ndarray):
         if lmax <= oldlmax:
             return self[:,:lmax,...]
         else:
-            new_shape = sp.array(self.shape)
+            new_shape = np.array(self.shape)
             new_shape[1] = lmax
-            gsf_data = sp.zeros(new_shape)
+            gsf_data = np.zeros(new_shape)
             gsf_data[:, 0:oldlmax,...] = self
             return SingleScatteringArray(gsf_data)
         
@@ -357,7 +358,7 @@ class SingleScatteringArray(sp.ndarray):
         """        
         if angles is None: 
             Na = min(20+self.lmax(), 60)
-            angles = sp.linspace(0,sp.pi, Na)
+            angles = np.linspace(0,np.pi, Na)
         else: 
             assert angles.ndim == 1
             Na = angles.size
@@ -367,8 +368,8 @@ class SingleScatteringArray(sp.ndarray):
 
         # Calculate the norm        
         tran_vec = range(scat.ndim)[2:]+[0,1]
-        out_shape = sp.array(scat.shape)[range(scat.ndim)[2:]]
-        norms = sp.array([la.norm(a, ord=ord)
+        out_shape = np.array(scat.shape)[range(scat.ndim)[2:]]
+        norms = np.array([la.norm(a, ord=ord)
                          for a in scat.transpose(tran_vec).reshape(-1,4,4)])
         norms = norms.reshape(out_shape).max(0)
         return norms
