@@ -10,8 +10,9 @@ from __future__ import division, absolute_import, print_function
 
 
 # Import the numpy version of distutils (which has support for f2py)
-import setuptools
-from numpy.distutils.core import Extension
+import os, sys, subprocess
+from setuptools import setup, Extension
+from setuptools.command.build_ext import build_ext
 from os.path import join
 
 
@@ -57,24 +58,27 @@ ext_modules = [
               sources = [join(FORTRAN_SOURCE_DIR, 'spher_.f')])]
 
 
-
+class F2pyBuildExt(build_ext):
+    def build_extension(self, ext):
+        module_name = ext.name.split('.')[-1]
+        output_dir = join(self.build_lib, *ext.name.split('.')[:-1])
+        os.makedirs(output_dir, exist_ok=True)
+        subprocess.check_call(
+            [sys.executable, '-m', 'numpy.f2py', '-c', *ext.sources, '-m', module_name],
+            cwd=output_dir)
 
 # Run setup when called as a program
 # --
 if __name__ == "__main__":
-    
-    # import setup
-    from numpy.distutils.core import setup
-
-    # Call to setup the package
     setup(name = NAME,
           version = VERSION,
           description = DESCRIPTION,
           author = AUTHOR,
           author_email = AUTHOR_EMAIL,
-          packages=PACKAGES, 
+          packages=PACKAGES,
           package_dir=PACKAGE_DIR,
-          license = LICENSE, 
-          ext_modules=ext_modules)
+          license = LICENSE,
+          ext_modules=ext_modules,
+          cmdclass={'build_ext': F2pyBuildExt})
 
 
