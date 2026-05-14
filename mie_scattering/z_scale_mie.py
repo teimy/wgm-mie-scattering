@@ -28,7 +28,7 @@ import scipy as sp
 # import scipy.interpolate as interp
 
 # my imports
-import .single_scattering.mie.core.size_average as size_average
+from .single_scattering.mie.core import size_average
 from .spher_interface import mono 
 _mono = mono
 
