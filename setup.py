@@ -31,7 +31,7 @@ LICENSE = "GPL2"
 
 # Define the folders to find files in \
 abs_path = os.getcwd()
-FORTRAN_SOURCE_DIR = abs_path+'/src'                     # fortran source files 
+FORTRAN_SOURCE_DIR = abs_path + '/src'                     # fortran source files 
 PYTHON_SOURCE_DIR = 'mie_scattering'           # python bindings
 TARGET_SO_LIB = join(PYTHON_SOURCE_DIR, 'lib') # .so files
 
