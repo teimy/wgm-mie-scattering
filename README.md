@@ -12,7 +12,9 @@ called `angle_eval` which returns the scattering matrix at specified
 angles. 
 
 ## Requirements
-Python with `numpy`, `scipy`, `f2py` (i.e. `anaconda` package);`gfortran` is also required.
+- Python with `numpy`, `scipy`, `f2py` (i.e. `anaconda` package)
+- `gfortran`: `sudo apt-get install gfortran`/`brew install gcc`
+- `meson` and `ninja` for `f2py`: `conda install meson ninja`
 
 ## System-wide install
 
