@@ -982,7 +982,8 @@ c     &  F6.4,'  GAMMA=',F6.4)
          WY(I)=WY(I)*Y                                                       
    50 CONTINUE                                                                  
       GO TO 400                                                                 
-  100 PRINT 1002,AA,BB                                                          
+C  100 PRINT 1002,AA,BB
+  100 CONTINUE                                                         
  1002 FORMAT('LOG NORMAL DISTRIBUTION, r_g=',F8.4,'  [ln(sigma_g)]**2=',            
      &       F6.4)                                                              
       DA=1D0/AA                                                                 
@@ -1012,7 +1013,8 @@ c 1004 FORMAT ('GAMMA DISTRIBUTION,  a=',F8.4,'  b=',F6.4)
          WY(I)=WY(I)*X                                                       
   350 CONTINUE                                                                  
       GO TO 400                                                                 
-  360 PRINT 1005,BB                                                             
+  360 CONTINUE
+C PRINT 1005,BB                                                             
  1005 FORMAT ('MODIFIED POWER LAW DISTRIBUTION,  ALPHA=',D10.4)
       DO 370 I=1,NNK                                                            
          X=YY(I)                                                                
@@ -1020,7 +1022,8 @@ c 1004 FORMAT ('GAMMA DISTRIBUTION,  a=',F8.4,'  b=',F6.4)
          IF (X.GT.R1) WY(I)=WY(I)*(X/R1)**BB
   370 CONTINUE                                                                  
       GO TO 400                                                                 
-  380 PRINT 1006                                    
+C  380 PRINT 1006
+  380 CONTINUE                                    
 c      PRINT 1007,AA1,BB1                                    
 c      PRINT 1008,AA2,BB2,GAM                                    
  1006 FORMAT('BIMODAL VOLUME LOG NORMAL DISTRIBUTION')
@@ -1119,12 +1122,13 @@ C**********************************************************
           W(I)=W(M)
   100 CONTINUE
       IF(IND2.NE.1) GO TO 110
-      PRINT 1100,N
+C      PRINT 1100,N
  1100 FORMAT(' ***  POINTS AND WEIGHTS OF GAUSSIAN QUADRATURE FORMULA',
      * ' OF ',I4,'-TH ORDER')
       DO 105 I=1,K
           ZZ=-Z(I)
-  105     PRINT 1200,I,ZZ,I,W(I)
+C  105 PRINT 1200,I,ZZ,I,W(I)
+  105 CONTINUE
  1200 FORMAT(' ',4X,'X(',I4,') = ',F17.14,5X,'W(',I4,') = ',F17.14)
       GO TO 115
   110 CONTINUE
