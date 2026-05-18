@@ -329,7 +329,7 @@ C        180*(I-1)/(NPNA-1) (DEGREES), WHERE I NUMBERS THE ANGLES
       REAL*8 A1(NPL),A2(NPL),A3(NPL),A4(NPL),B1(NPL),B2(NPL)
       L1MAX=LMAX+1
       D6=DSQRT(6D0)*0.25D0
-      PRINT 1003
+C      PRINT 1003
  1003 FORMAT(' ',5X,'<',11X,'F11',6X,'     F33',6X,'     F12',
      & 6X,'     F34')
       N=NPNA
@@ -390,7 +390,7 @@ C        180*(I-1)/(NPNA-1) (DEGREES), WHERE I NUMBERS THE ANGLES
 C        F33=100d0*F33/F11
 C        F12=-100d0*F12/F11
 C        F34=100d0*F34/F11
-         PRINT 1004,TB,F11,F33,F12,F34
+C         PRINT 1004,TB,F11,F33,F12,F34
 C        WRITE (10,1004) TB,F11,F33,F12,F34
   500 CONTINUE
  1004 FORMAT(' ',F6.2,6F14.5)
@@ -860,7 +860,7 @@ C*********************************************************************
       IF (NDISTR.EQ.4) GO TO 300                                                
       IF (NDISTR.EQ.5) GO TO 360                                                
       IF (NDISTR.EQ.6) GO TO 380                                                
-      PRINT 1001,AA,BB,GAM                                                      
+C      PRINT 1001,AA,BB,GAM                                                      
  1001 FORMAT('MODIFIED GAMMA DISTRIBUTION, ALPHA=',F6.4,'  r_c=',               
      &  F6.4,'  GAMMA=',F6.4)                                                   
       A2=AA/GAM                                                                 
@@ -873,7 +873,8 @@ C*********************************************************************
          WY(I)=WY(I)*Y                                                       
    50 CONTINUE                                                                  
       GO TO 400                                                                 
-  100 PRINT 1002,AA,BB                                                          
+C  100 PRINT 1002,AA,BB   
+  100 CONTINUE                                                       
  1002 FORMAT('LOG NORMAL DISTRIBUTION, r_g=',F8.4,'  [ln(sigma_g)]**2=',            
      &       F6.4)                                                              
       DA=1D0/AA                                                                 
@@ -884,14 +885,16 @@ C*********************************************************************
          WY(I)=WY(I)*Y                                                          
   150 CONTINUE                                                                  
       GO TO 400                                                                 
-  200 PRINT 1003                                                                
+C  200 PRINT 1003  
+  200 CONTINUE                                                                
  1003 FORMAT('POWER LAW DISTRIBUTION OF HANSEN & TRAVIS 1974')                 
       DO 250 I=1,NNK                                                            
          X=YY(I)                                                                
          WY(I)=WY(I)/(X*X*X)                                                 
   250 CONTINUE                                                                  
       GO TO 400                                                                 
-  300 PRINT 1004,AA,BB     
+C  300 PRINT 1004,AA,BB    
+  300 CONTINUE  
  1004 FORMAT ('GAMMA DISTRIBUTION,  a=',F8.4,'  b=',F6.4)
       B2=(1D0-3D0*BB)/BB                                                        
       DAB=1D0/(AA*BB)                                                          
@@ -901,7 +904,8 @@ C*********************************************************************
          WY(I)=WY(I)*X                                                       
   350 CONTINUE                                                                  
       GO TO 400                                                                 
-  360 PRINT 1005,BB                                                             
+C  360 PRINT 1005,BB        
+  360 CONTINUE                                                       
  1005 FORMAT ('MODIFIED POWER LAW DISTRIBUTION,  ALPHA=',D10.4)
       DO 370 I=1,NNK                                                            
          X=YY(I)                                                                
@@ -909,9 +913,10 @@ C*********************************************************************
          IF (X.GT.R1) WY(I)=WY(I)*(X/R1)**BB
   370 CONTINUE                                                                  
       GO TO 400                                                                 
-  380 PRINT 1006                                    
-      PRINT 1007,AA1,BB1                                    
-      PRINT 1008,AA2,BB2,GAM                                    
+C  380 PRINT 1006      
+  380 CONTINUE                                 
+C      PRINT 1007,AA1,BB1                                    
+C      PRINT 1008,AA2,BB2,GAM                                    
  1006 FORMAT('BIMODAL VOLUME LOG NORMAL DISTRIBUTION')
  1007 FORMAT('r_g1=',F8.4,'  [ln(sigma_g1)]**2=',F6.4)
  1008 FORMAT('r_g2=',F8.4,'  [ln(sigma_g2)]**2=',F6.4,
@@ -1008,12 +1013,14 @@ C**********************************************************
           W(I)=W(M)
   100 CONTINUE
       IF(IND2.NE.1) GO TO 110
-      PRINT 1100,N
+C      PRINT 1100,N
+
  1100 FORMAT(' ***  POINTS AND WEIGHTS OF GAUSSIAN QUADRATURE FORMULA',
      * ' OF ',I4,'-TH ORDER')
       DO 105 I=1,K
           ZZ=-Z(I)
-  105     PRINT 1200,I,ZZ,I,W(I)
+C  105 PRINT 1200,I,ZZ,I,W(I)
+  105 CONTINUE
  1200 FORMAT(' ',4X,'X(',I4,') = ',F17.14,5X,'W(',I4,') = ',F17.14)
       GO TO 115
   110 CONTINUE
